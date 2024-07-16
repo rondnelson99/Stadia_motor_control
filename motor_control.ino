@@ -1,20 +1,3 @@
-// pwm's the appripriate H-Bridge pin
-// maxPower is the maximum duty cycle (0 - 1)
-// power is the portion of that maximum (-1 - 1)
-<<<<<<< HEAD
-#define ANALOG_WRITE_MAX 255
-void run_motor(int pinForward, int pinBackward, double power, double maxPower) {
-  int motorPower = min(abs(power) * ANALOG_WRITE_MAX, 1.0 * ANALOG_WRITE_MAX);
-  if (power > 0) {
-    analogWrite(pinForward, motorPower);
-    analogWrite(pinBackward, 0);
-    Serial.printf("Running Forward %d \n", motorPower);
-  }
-  else {
-    analogWrite(pinBackward, motorPower);
-    analogWrite(pinForward, 0);
-=======
-
 // We need to use the lower-level LEDC functions since AnalogWrite has no means to disconnect an LEDC channel, so we can't use 10 total signals, as we only have 8 channels.
 // See https://github.com/espressif/arduino-esp32/blob/release/v2.x/docs/source/api/ledc.rst
 
@@ -42,7 +25,6 @@ void run_motor(int pinForward, int pinBackward, double power, double maxPower, i
     ledcDetachPin(pinForward);
     digitalWrite(pinForward, LOW);
     startPWM(pinBackward, LEDCChannel, outputDuty);
->>>>>>> 9172806 (initial commit)
   }
 }
 
@@ -53,25 +35,12 @@ void run_motor(int pinForward, int pinBackward, double power, double maxPower, i
 #define DRIVE_RIGHT_FORWARD_PIN 17
 #define DRIVE_RIGHT_BACKWARD_PIN 18
 #define DRIVE_MOTOR_MAX_POWER 1.0
-<<<<<<< HEAD
-=======
 #define DRIVE_LEFT_LEDC_CHANNEL 5
 #define DRIVE_RIGHT_LEDC_CHANNEL 1
->>>>>>> 9172806 (initial commit)
 
 #define BED_FORWARD_PIN 47
 #define BED_BACKWARD_PIN 21
 #define BED_MAX_POWER 0.6
-<<<<<<< HEAD
-
-void steer_drivetrain(double forward, double turning) {
-  run_motor(DRIVE_LEFT_FORWARD_PIN, DRIVE_LEFT_BACKWARD_PIN, forward + turning, DRIVE_MOTOR_MAX_POWER);
-  run_motor(DRIVE_RIGHT_FORWARD_PIN, DRIVE_RIGHT_BACKWARD_PIN, forward - turning, DRIVE_MOTOR_MAX_POWER);
-}
-
-void run_bed(double power) {
-  run_motor(BED_FORWARD_PIN, BED_BACKWARD_PIN, power, BED_MAX_POWER);
-=======
 #define BED_LEDC_CHANNEL 2
 
 #define ARM_ROTATION_FORWARD_PIN 38
@@ -99,7 +68,6 @@ void run_arm_rotation(double power) {
 
 void run_arm_extension(double power) {
   run_motor(ARM_EXTENSION_FORWARD_PIN, ARM_EXTENSION_BACKWARD_PIN, power, ARM_EXTENSION_MAX_POWER, ARM_EXTENSION_LEDC_CHANNEL);
->>>>>>> 9172806 (initial commit)
 }
 
 void init_motor_control() {
@@ -109,11 +77,8 @@ void init_motor_control() {
   pinMode(DRIVE_RIGHT_BACKWARD_PIN, OUTPUT);
   pinMode(BED_FORWARD_PIN, OUTPUT);
   pinMode(BED_BACKWARD_PIN, OUTPUT);
-<<<<<<< HEAD
-=======
   pinMode(ARM_EXTENSION_FORWARD_PIN, OUTPUT);
   pinMode(ARM_EXTENSION_BACKWARD_PIN, OUTPUT);
   pinMode(ARM_ROTATION_FORWARD_PIN, OUTPUT);
   pinMode(ARM_ROTATION_BACKWARD_PIN, OUTPUT);
->>>>>>> 9172806 (initial commit)
 }
